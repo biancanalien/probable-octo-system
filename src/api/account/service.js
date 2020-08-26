@@ -1,0 +1,67 @@
+import clientService from '../client/service';
+import { parseAccountBanking } from './parse';
+import bankingAccountModel from './model';
+
+const hideFields = { "_id": 0 };
+
+const bankingAccountService = {
+    validateBankingAccount() {
+        return true;
+    },
+    async create(body) {
+        const newClient = await clientService.create(body);
+
+        const accountNumber = await generateAccountNumber();
+
+        const newBankingAccount = {
+            clientCode: newClient._id,
+            branchNumber: "0001",
+            branchNumberDigit: "0",
+            accountNumber,
+            accountNumberDigit: "0",
+            fullAccountNumber: `${accountNumber}-0`,
+            avaliableBalance: 0
+        };
+
+        const data = await bankingAccountModel.create(newBankingAccount);
+        return parseAccountBanking(newClient, data);
+    },
+    async updateAvaliableBalance(transaction) {
+        const bankingAccount = await this.getBankingAccount(transaction.fullAccountNumber);
+
+        if (bankingAccount == null)
+            return null;
+
+        return await updateAvaliableBalance(transaction, bankingAccount);
+    },
+    async getBankingAccount(fullAccountNumber) {
+        return await bankingAccountModel.findOne({ fullAccountNumber }) || null;
+    }
+}
+
+const generateAccountNumber = async () => {
+    let newAccountNumber = null;
+
+    do {
+        newAccountNumber = Math.floor(100000 + Math.random() * 900000);
+    } while (await accountExist(newAccountNumber));
+
+    return newAccountNumber;
+}
+
+const accountExist = async (accountNumber) => {
+    const account = await bankingAccountModel.findOne({ accountNumber });
+    return account != null;
+}
+
+const updateAvaliableBalance = async (transaction, bankingAccount) => {
+    if (transaction.actionType === 'A') {
+        bankingAccount.avaliableBalance += transaction.value;
+    } else if (transaction.actionType === 'D') {
+        bankingAccount.avaliableBalance -= transaction.value;
+    }
+
+    return await bankingAccountModel.findOneAndUpdate({ 'fullAccountNumber': transaction.fullAccountNumber }, bankingAccount, { new: true, upsert: true, fields: hideFields })
+}
+
+export default bankingAccountService;

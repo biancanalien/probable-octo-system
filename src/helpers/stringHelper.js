@@ -1,0 +1,1 @@
+export const stringIsNullOrEmpty = str => !str || str.trim().length <= 0;
