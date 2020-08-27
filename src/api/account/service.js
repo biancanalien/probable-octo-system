@@ -20,19 +20,19 @@ const bankingAccountService = {
             accountNumber,
             accountNumberDigit: "0",
             fullAccountNumber: `${accountNumber}-0`,
-            avaliableBalance: 0
+            availableBalance: 0
         };
 
         const data = await bankingAccountModel.create(newBankingAccount);
         return parseAccountBanking(newClient, data);
     },
-    async updateAvaliableBalance(transaction) {
+    async updateAvailableBalance(transaction) {
         const bankingAccount = await this.getBankingAccount(transaction.fullAccountNumber);
 
         if (bankingAccount == null)
             return null;
 
-        return await updateAvaliableBalance(transaction, bankingAccount);
+        return await updateAvailableBalance(transaction, bankingAccount);
     },
     async getBankingAccount(fullAccountNumber) {
         return await bankingAccountModel.findOne({ fullAccountNumber }) || null;
@@ -54,11 +54,11 @@ const accountExist = async (accountNumber) => {
     return account != null;
 }
 
-const updateAvaliableBalance = async (transaction, bankingAccount) => {
+const updateAvailableBalance = async (transaction, bankingAccount) => {
     if (transaction.actionType === 'A') {
-        bankingAccount.avaliableBalance += transaction.value;
+        bankingAccount.availableBalance += transaction.value;
     } else if (transaction.actionType === 'D') {
-        bankingAccount.avaliableBalance -= transaction.value;
+        bankingAccount.availableBalance -= transaction.value;
     }
 
     return await bankingAccountModel.findOneAndUpdate({ 'fullAccountNumber': transaction.fullAccountNumber }, bankingAccount, { new: true, upsert: true, fields: hideFields })

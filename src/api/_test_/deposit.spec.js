@@ -42,7 +42,7 @@ describe('test save deposit service', () => {
                 depositType: 'DOC'
             },
             date: '26/08/2020 11:37:22',
-            avaliableBalance: 521.36
+            availableBalance: 521.36
         };
 
         request(appMock)

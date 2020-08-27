@@ -7,7 +7,7 @@ const transactionService = {
     async create(newTransaction) {
         newTransaction.date = currentDate();
         const transaction = await transactionModel.create(newTransaction);
-        const bankingAccount = await bankingAccountService.updateAvaliableBalance(transaction);
+        const bankingAccount = await bankingAccountService.updateAvailableBalance(transaction);
 
         if (bankingAccount == null) {
             await transactionModel.findByIdAndDelete(transaction._id);

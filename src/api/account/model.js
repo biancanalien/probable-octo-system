@@ -7,7 +7,7 @@ const bankingAccountSchema = new mongoose.Schema({
     accountNumber: { type: String, required: true, unique: true },
     accountNumberDigit: { type: String, required: true },
     fullAccountNumber: { type: String, required: true },
-    avaliableBalance: { type: Number, required: true }
+    availableBalance: { type: Number, required: true }
 });
 
 mongoose.model('bankingAccount', bankingAccountSchema);

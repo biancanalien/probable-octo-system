@@ -3,7 +3,7 @@ import { formatToBRDateString } from '../../helpers/dateHelper';
 
 export const parseTransaction = (
     { transactionType, value, actionType, labelDescription, branchNumber, fullAccountNumber, operation, date },
-    { avaliableBalance }) => ({
+    { availableBalance }) => ({
         transactionType,
         value,
         actionType,
@@ -12,7 +12,7 @@ export const parseTransaction = (
         fullAccountNumber,
         operation,
         date: formatToBRDateString(date),
-        avaliableBalance
+        availableBalance
     });
 
 export const parseBankStatement = (

@@ -1,7 +1,7 @@
-export const parseAccountBanking = ({ fullName, email }, { branchNumber, accountNumber, accountNumberDigit, avaliableBalance }) => ({
+export const parseAccountBanking = ({ fullName, email }, { branchNumber, accountNumber, accountNumberDigit, availableBalance }) => ({
     fullName,
     email,
     branchNumber,
     fullAccountNumber: `${accountNumber}-${accountNumberDigit}`,
-    avaliableBalance
+    availableBalance
 });
