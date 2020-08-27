@@ -14,8 +14,8 @@ const withdrawController = app => {
                 return res.status(404).send('Failed to find client. Banking account not found!');
             }
 
-            if (currentBankingAccount.availableBalance < body.value) {
-                return res.status(422).send('Failed to withdraw this value. Not enought balance available!');
+            if (body.value > currentBankingAccount.availableBalance) {
+                return res.status(422).send('Failed to withdraw this value. Not enough balance available!');
             }
 
             const newWithdraw = await withdrawService.save(body);
