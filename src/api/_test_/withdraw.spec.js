@@ -79,7 +79,7 @@ describe('test withdraw service', () => {
             request(appMock)
                 .post('/account/withdraw')
                 .send(bodyMock)
-                .expect(422, 'Failed to withdraw this value. Not enought balance available!', done);
+                .expect(422, 'Failed to withdraw this value. Not enough balance available!', done);
         });
     })
 });
