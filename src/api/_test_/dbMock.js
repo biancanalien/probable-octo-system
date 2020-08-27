@@ -5,8 +5,8 @@ const mongoMock = new MongoMemoryServer();
 
 const dbMock = {
     connect: async () => {
+        console.log("Connecting...");
         const uri = await mongoMock.getConnectionString();
-
         const mongooseOpts = {
             useNewUrlParser: true,
             autoReconnect: true,
@@ -18,6 +18,7 @@ const dbMock = {
     },
 
     disconnect: async () => {
+        console.log("Disconnecting...");
         await mongoose.connection.dropDatabase();
         await mongoose.connection.close();
         await mongoMock.stop();

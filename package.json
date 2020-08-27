@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node -r esm .",
-    "test": "jest --runInBand"
+    "test": "jest",
+    "it": "jest --runInBand ./src/api/_test_"
   },
   "keywords": [],
   "author": "",

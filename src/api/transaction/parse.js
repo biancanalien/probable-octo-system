@@ -14,3 +14,15 @@ export const parseTransaction = (
         date: formatToBRDateString(date),
         avaliableBalance
     });
+
+export const parseBankStatement = (
+    { transactionType, value, actionType, labelDescription, branchNumber, fullAccountNumber, operation, date }) => ({
+        transactionType,
+        value,
+        actionType,
+        labelDescription,
+        branchNumber,
+        fullAccountNumber,
+        operation,
+        date: formatToBRDateString(date)
+    });

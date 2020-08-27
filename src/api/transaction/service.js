@@ -15,6 +15,15 @@ const transactionService = {
         }
 
         return parseTransaction(transaction, bankingAccount);
+    },
+    getBankStatement(fullAccountNumber, branchNumber, page = 1) {
+        const pageSize = 20;
+        const skip = (page - 1) * pageSize;
+        return transactionModel
+            .find({ fullAccountNumber: fullAccountNumber, branchNumber: branchNumber })
+            .sort({ _id: -1 })
+            .skip(skip)
+            .limit(pageSize);
     }
 }
 
