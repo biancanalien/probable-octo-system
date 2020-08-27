@@ -23,6 +23,21 @@ export const createMockDepositBody = ({
     };
 };
 
+export const createMockWithdrawBody = ({
+    value = 36.45,
+    branchNumber = "0001",
+    fullAccountNumber = "817391-0",
+    financialInstitution = {
+        companyName: "Banco 24 Horas",
+        cnpj: "24.363.105/0001-73"
+    }
+}) => ({
+    value,
+    branchNumber,
+    fullAccountNumber,
+    financialInstitution
+});
+
 export const createAndSaveMockDeposit = async (fullAccountNumber, branchNumber, depositBody = null) => {
     if (depositBody == null) {
         depositBody = createMockDepositBody({ branchNumber, fullAccountNumber });
