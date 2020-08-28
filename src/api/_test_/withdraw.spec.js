@@ -2,11 +2,13 @@ import { createAndSaveMockDeposit, createAndSaveMockAccount, createMockWithdrawB
 import appMock from './appMock';
 import dbMock from './dbMock';
 import request from 'supertest';
+import { baseURL } from '../../constant/route';
 
 const currentDate = Date.now();
 
 describe('test withdraw service', () => {
     let bankingAccount = null;
+    const withdrawEndpoint = `${baseURL}/operation/withdraw`;
 
     beforeAll(async () => {
         await dbMock.connect();
@@ -37,7 +39,7 @@ describe('test withdraw service', () => {
             const expected = { "currentBankingAccount": { "availableBalance": "R$ 484,91", "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, }, "currentTransaction": { "actionType": "D", "date": "26/08/2020 11:37:22", "labelDescription": "Banco 24 Horas", "operation": { "financialInstitution": { "cnpj": "24.363.105/0001-73", "companyName": "Banco 24 Horas" } }, "transactionType": "WD", "value": "R$ 36,45" } }
 
             request(appMock)
-                .post('/account/withdraw')
+                .post(withdrawEndpoint)
                 .send(bodyMock)
                 .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .expect(201, (err, resp) => {
@@ -55,7 +57,7 @@ describe('test withdraw service', () => {
             const bodyMock = createMockWithdrawBody({ financialInstitution: null });
 
             request(appMock)
-                .post('/account/withdraw')
+                .post(withdrawEndpoint)
                 .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .send(bodyMock)
                 .expect(422, 'Failed to save withdraw transaction. Request body with invalid values.', done);
@@ -65,7 +67,7 @@ describe('test withdraw service', () => {
             const bodyMock = createMockWithdrawBody({});
 
             request(appMock)
-                .post('/account/withdraw')
+                .post(withdrawEndpoint)
                 .set('Authorization', `fakeToken&notexist&notexist`)
                 .send(bodyMock)
                 .expect(403, 'User has no permission', done);
@@ -79,7 +81,7 @@ describe('test withdraw service', () => {
             const bodyMock = createMockWithdrawBody({ value: 600.45 });
 
             request(appMock)
-                .post('/account/withdraw')
+                .post(withdrawEndpoint)
                 .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .send(bodyMock)
                 .expect(422, 'Failed to withdraw this value. Not enough balance available!', done);

@@ -1,4 +1,5 @@
 import express from 'express';
+import unless from 'express-unless';
 import db from '../settings/db';
 import { checkBankingAccount } from '../middleware/auth';
 
@@ -21,7 +22,9 @@ app.use((_, res, next) => {
     next();
 });
 
-app.use(checkBankingAccount);
+checkBankingAccount.unless = unless;
+
+app.use(checkBankingAccount.unless({ path: ['/api/v1/account/new'], method: 'OPTIONS' }));
 
 depositController(app);
 withdrawController(app);

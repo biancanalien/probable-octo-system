@@ -1,7 +1,8 @@
 import withdrawService from './service';
+import { baseURL } from '../../constant/route';
 
 const withdrawController = app => {
-    app.route('/account/withdraw').post(async ({ body }, res) => {
+    app.route(`${baseURL}/operation/withdraw`).post(async ({ body }, res) => {
         try {
             if (!await withdrawService.validate(body)) {
                 return res.status(422).send('Failed to save withdraw transaction. Request body with invalid values.');

@@ -1,7 +1,8 @@
 import depositService from './service';
+import { baseURL } from '../../constant/route';
 
 const depositController = app => {
-    app.route('/account/deposit').post(async (req, res) => {
+    app.route(`${baseURL}/operation/deposit`).post(async (req, res) => {
         try {
             if (!await depositService.validateDeposit(req.body)) {
                 return res.status(422).send('Failed to save deposit transaction. Request body with invalid values.');

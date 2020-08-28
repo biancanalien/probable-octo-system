@@ -1,12 +1,14 @@
 import { createMockDepositBody, createAndSaveMockAccount } from './dataMock';
 import appMock from './appMock';
 import dbMock from './dbMock';
+import { baseURL } from '../../constant/route';
 import request from 'supertest';
 
 const currentDate = Date.now();
 
 describe('test save deposit service', () => {
     let bankingAccount = null;
+    const depositEndpoint = `${baseURL}/operation/deposit`;
 
     beforeAll(async () => {
         await dbMock.connect();
@@ -30,7 +32,7 @@ describe('test save deposit service', () => {
         const bodyMock = createMockDepositBody({});
         const responseExpected = { "currentTransaction": { "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, "currentBankingAccount": { "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "availableBalance": "R$ 521,36" } };
         request(appMock)
-            .post('/account/deposit')
+            .post(depositEndpoint)
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
             .send(bodyMock)
             .expect(201, JSON.stringify(responseExpected), done);
@@ -40,7 +42,7 @@ describe('test save deposit service', () => {
         const bodyMock = createMockDepositBody({ depositType: "BLA" });
 
         request(appMock)
-            .post('/account/deposit')
+            .post(depositEndpoint)
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
             .send(bodyMock)
             .expect(422, 'Failed to save deposit transaction. Request body with invalid values.', done);
@@ -49,7 +51,7 @@ describe('test save deposit service', () => {
     it('return error when banking account not found with 404 status', (done) => {
         const bodyMock = createMockDepositBody({});
         request(appMock)
-            .post('/account/deposit')
+            .post(depositEndpoint)
             .set('Authorization', `fakeToken&notValidAccountNumber&notValidBranchNumber`)
             .send(bodyMock)
             .expect(403, 'User has no permission', done);

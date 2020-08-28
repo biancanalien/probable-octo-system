@@ -1,10 +1,6 @@
 import bankingAccountService from '../api/account/service';
 
 export const checkBankingAccount = async (req, res, next) => {
-    if (req.method === 'OPTIONS') {
-        next();
-    }
-
     const currentToken = req.headers['authorization'];
 
     if (!currentToken) {

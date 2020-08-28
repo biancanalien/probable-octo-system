@@ -1,8 +1,9 @@
 import transactionService from './service';
 import { parseBankStatement } from './parse';
+import { baseURL } from '../../constant/route';
 
 const transactionController = (app) => {
-    app.route('/account/bank-statement').get(async ({ query }, res) => {
+    app.route(`${baseURL}/bank-statement`).get(async ({ query }, res) => {
         try {
             const { page } = query;
             const { currentBankingAccount } = res.locals;

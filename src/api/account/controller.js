@@ -1,7 +1,8 @@
 import bankingAccountService from './service';
+import { baseURL } from '../../constant/route';
 
 const bankingAccountController = app => {
-    app.route('/account/client').post(async ({ body }, res) => {
+    app.route(`${baseURL}/account/new`).post(async ({ body }, res) => {
         try {
             if (!bankingAccountService.validateBankingAccount(body)) {
                 return res.status(422).send('Failed to create banking account. Request body with invalid values.');
