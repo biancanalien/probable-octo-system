@@ -22,26 +22,28 @@ const depositService = {
         }
         return depositIsValid;
     },
-    async save(body) {
-        const operation = createDepositOperation(body);
-
-        const labelDescription = mountLabelDescription(operation);
-
-        const newTransaction = {
-            transactionType: transactionType.Deposit,
-            value: body.value,
-            actionType: actionType.Addition,
-            labelDescription,
-            branchNumber: body.branchNumber,
-            fullAccountNumber: body.fullAccountNumber,
-            operation
-        };
-
-        return await transactionService.create(newTransaction);
+    async save(operation, bankingAccount) {
+        const newTransaction = mountDepositTransaction(operation, bankingAccount);
+        return await transactionService.create(newTransaction, bankingAccount);
     }
 }
 
-const createDepositOperation = ({ payingSource = null, depositType }) => ({
+const mountDepositTransaction = (operation, bankingAccount) => {
+    const depositOperation = mountDepositOperation(operation);
+    const labelDescription = mountLabelDescription(depositOperation);
+
+    return {
+        transactionType: transactionType.Deposit,
+        value: operation.value,
+        actionType: actionType.Addition,
+        labelDescription,
+        branchNumber: bankingAccount.branchNumber,
+        fullAccountNumber: bankingAccount.fullAccountNumber,
+        operation: depositOperation
+    };
+}
+
+const mountDepositOperation = ({ payingSource = null, depositType }) => ({
     payingSource,
     depositType
 });

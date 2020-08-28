@@ -14,12 +14,7 @@ const depositController = app => {
                 return res.status(404).send('Failed to find client. Banking account not found!');
             }
 
-            const newDeposit = await depositService.save(body);
-
-            if (newDeposit == null) {
-                return res.status(500).send('Failed when trying to save deposit');
-            }
-
+            const newDeposit = await depositService.save(body, currentBankingAccount);
             res.status(201).send(newDeposit);
         } catch (e) {
             console.error(`Failed to save data from deposit service: ${e.message}`);

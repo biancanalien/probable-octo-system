@@ -38,12 +38,12 @@ export const createMockWithdrawBody = ({
     financialInstitution
 });
 
-export const createAndSaveMockDeposit = async (fullAccountNumber, branchNumber, depositBody = null) => {
+export const createAndSaveMockDeposit = async (bankingAccount, depositBody = null) => {
     if (depositBody == null) {
-        depositBody = createMockDepositBody({ branchNumber, fullAccountNumber });
+        depositBody = createMockDepositBody({ branchNumber: bankingAccount.branchNumber, fullAccountNumber: bankingAccount.fullAccountNumber });
     }
 
-    return await depositService.save(depositBody);
+    return await depositService.save(depositBody, bankingAccount);
 };
 
 export const createAndSaveMockAccount = async () => {
