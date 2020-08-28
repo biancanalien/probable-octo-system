@@ -36,7 +36,6 @@ describe('test get bank statement service', () => {
         request(appMock)
             .get('/account/bank-statement')
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
-            .query({ fullAccountNumber: bankingAccount.fullAccountNumber, branchNumber: bankingAccount.branchNumber })
             .expect(200, expected, done);
     });
 
@@ -50,15 +49,14 @@ describe('test get bank statement service', () => {
         request(appMock)
             .get('/account/bank-statement')
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
-            .query({ fullAccountNumber: bankingAccount.fullAccountNumber, branchNumber: bankingAccount.branchNumber, page: 2 })
+            .query({ page: 2 })
             .expect(200, expected, done);
     });
 
     it('return error when failed to find banking accoount with 404 status', async (done) => {
         request(appMock)
             .get('/account/bank-statement')
-            .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
-            .query({ fullAccountNumber: '123456-6', branchNumber: '0001' })
-            .expect(404, 'Failed to find client. Banking account not found!', done);
+            .set('Authorization', `fakeToken&notexistaccountnumber&notexistbranchnumber`)
+            .expect(403, 'User has no permission', done);
     });
 });
