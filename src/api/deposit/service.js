@@ -4,12 +4,10 @@ import { depositTypeEnum } from '../../constant/depositEnum';
 import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
 
 const depositService = {
-    async validateDeposit({ depositType = null, value = null, branchNumber = null, fullAccountNumber = null, payingSource = null }) {
+    async validateDeposit({ depositType = null, value = null, payingSource = null }) {
         let depositIsValid = depositType != null &&
-            depositTypeEnum.includes(depositType) &&
-            value != null && value > 0 &&
-            !stringIsNullOrEmpty(branchNumber) &&
-            !stringIsNullOrEmpty(fullAccountNumber);
+            depositTypeEnum.includes(depositType.toUpperCase()) &&
+            value != null && value > 0;
 
         if (depositType != 'BLT') {
             depositIsValid = depositIsValid &&

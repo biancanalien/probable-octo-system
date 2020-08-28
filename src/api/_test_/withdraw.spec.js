@@ -39,6 +39,7 @@ describe('test withdraw service', () => {
             request(appMock)
                 .post('/account/withdraw')
                 .send(bodyMock)
+                .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .expect(201, (err, resp) => {
                     if (err) throw err;
                     expect(resp.text).toEqual(expected);
@@ -55,6 +56,7 @@ describe('test withdraw service', () => {
 
             request(appMock)
                 .post('/account/withdraw')
+                .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .send(bodyMock)
                 .expect(422, 'Failed to save withdraw transaction. Request body with invalid values.', done);
         });
@@ -64,6 +66,7 @@ describe('test withdraw service', () => {
 
             request(appMock)
                 .post('/account/withdraw')
+                .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .send(bodyMock)
                 .expect(404, 'Failed to find client. Banking account not found!', done);
         });
@@ -77,6 +80,7 @@ describe('test withdraw service', () => {
 
             request(appMock)
                 .post('/account/withdraw')
+                .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .send(bodyMock)
                 .expect(422, 'Failed to withdraw this value. Not enough balance available!', done);
         });

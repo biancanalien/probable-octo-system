@@ -4,8 +4,6 @@ import depositService from '../deposit/service';
 export const createMockDepositBody = ({
     depositType = "DOC",
     value = 521.36,
-    branchNumber = "1234",
-    fullAccountNumber = "123456-6",
     payingSource = {
         bankName: "Banco Raiz",
         bankNumber: "123",
@@ -17,8 +15,6 @@ export const createMockDepositBody = ({
     return {
         depositType,
         value,
-        branchNumber,
-        fullAccountNumber,
         payingSource
     };
 };

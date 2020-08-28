@@ -10,6 +10,7 @@ const transactionService = {
         const bankingAccount = await bankingAccountService.updateAvailableBalance(transaction, currentBankingAccount);
         return parseTransaction(transaction, bankingAccount);
     },
+    
     getBankStatement(fullAccountNumber, branchNumber, page = 1) {
         const pageSize = 20;
         const skip = (page - 1) * pageSize;

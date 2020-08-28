@@ -69,52 +69,6 @@ describe('test validateDeposit service', () => {
         });
     });
 
-    describe('branchNumber field', () => {
-        it('return false when branchNumber is null', async () => {
-            const m = mockDeposit({ branchNumber: null });
-            const output = await depositService.validateDeposit(m);
-            expect(output).toBeFalsy();
-            expect(m.branchNumber).toEqual(null);
-        });
-
-        it('return false when branchNumber is empty', async () => {
-            const m = mockDeposit({ branchNumber: " " });
-            const output = await depositService.validateDeposit(m);
-            expect(output).toBeFalsy();
-            expect(m.branchNumber).toEqual(" ");
-        });
-
-        it('return true when branchNumber has value', async () => {
-            const m = mockDeposit({ branchNumber: "2054" });
-            const output = await depositService.validateDeposit(m);
-            expect(output).toBeTruthy();
-            expect(m.branchNumber).toEqual("2054");
-        });
-    });
-
-    describe('fullAccountNumber field', () => {
-        it('return false when fullAccountNumber is null', async () => {
-            const m = mockDeposit({ fullAccountNumber: null });
-            const output = await depositService.validateDeposit(m);
-            expect(output).toBeFalsy();
-            expect(m.fullAccountNumber).toEqual(null);
-        });
-
-        it('return false when fullAccountNumber is empty', async () => {
-            const m = mockDeposit({ fullAccountNumber: " " });
-            const output = await depositService.validateDeposit(m);
-            expect(output).toBeFalsy();
-            expect(m.fullAccountNumber).toEqual(" ");
-        });
-
-        it('return true when fullAccountNumber has value', async () => {
-            const m = mockDeposit({ fullAccountNumber: "123456-6" });
-            const output = await depositService.validateDeposit(m);
-            expect(output).toBeTruthy();
-            expect(m.fullAccountNumber).toEqual("123456-6");
-        });
-    });
-
     describe('payingSource field', () => {
         it('return false when depositType is DOC and payingSource is null', async () => {
             const m = mockDeposit({ payingSource: null });
@@ -343,8 +297,6 @@ describe('test validateDeposit service', () => {
 const mockDeposit = ({
     depositType = "DOC",
     value = 521.36,
-    branchNumber = "2610",
-    fullAccountNumber = "123456-0",
     payingSource = {
         bankName: "Banco Raiz",
         bankNumber: "123",
@@ -353,5 +305,5 @@ const mockDeposit = ({
         clientName: "Bianca Nalien da Cunha Pereira"
     }
 }) => {
-    return { depositType, value, branchNumber, fullAccountNumber, payingSource };
+    return { depositType, value, payingSource };
 };
