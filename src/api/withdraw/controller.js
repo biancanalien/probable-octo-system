@@ -18,12 +18,7 @@ const withdrawController = app => {
                 return res.status(422).send('Failed to withdraw this value. Not enough balance available!');
             }
 
-            const newWithdraw = await withdrawService.save(body);
-
-            if (newWithdraw == null) {
-                return res.status(500).send('Failed when trying to save withdraw');
-            }
-
+            const newWithdraw = await withdrawService.save(body, currentBankingAccount);
             res.status(201).send(newWithdraw);
         } catch (e) {
             console.error(`Failed to save data from withdraw service: ${e.message}`);
