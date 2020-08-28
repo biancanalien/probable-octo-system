@@ -1,7 +1,9 @@
-export const parseAccountBanking = ({ fullName, email }, { branchNumber, accountNumber, accountNumberDigit, availableBalance }) => ({
+import { formatToBRMoney } from '../../helpers/numberHelper';
+
+export const parseAccountBanking = ({ fullName, email }, { branchNumber, fullAccountNumber, availableBalance }) => ({
     fullName,
     email,
     branchNumber,
-    fullAccountNumber: `${accountNumber}-${accountNumberDigit}`,
-    availableBalance
+    fullAccountNumber,
+    availableBalance: formatToBRMoney(availableBalance)
 });

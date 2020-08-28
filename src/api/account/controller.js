@@ -15,6 +15,15 @@ const bankingAccountController = app => {
             res.status(500).send(`Failed when trying to create client banking account`);
         }
     });
+
+    app.route(`${baseURL}/account/me`).get(async (_, res) => {
+        try {
+            res.status(200).send(res.locals.currentBankingAccount);
+        } catch (e) {
+            console.error(`Failed to create data from banking account service ${e.message}`);
+            res.status(500).send(`Failed when trying to create client banking account`);
+        }
+    });
 };
 
 export default bankingAccountController;

@@ -37,7 +37,10 @@ const bankingAccountService = {
             .findOneAndUpdate({ 'fullAccountNumber': bankingAccount.fullAccountNumber }, bankingAccount, { new: true, upsert: true, fields: hideFields })
     },
     async getBankingAccount(fullAccountNumber) {
-        return await bankingAccountModel.findOne({ fullAccountNumber }) || null;
+        const bankingAccount = await bankingAccountModel.findOne({ fullAccountNumber }) || null;
+        if (!bankingAccount) return null;
+        const client = await clientService.getClientById(bankingAccount.clientCode);
+        return parseAccountBanking(client, bankingAccount);
     }
 }
 
