@@ -1,5 +1,4 @@
 import clientService from '../client/service';
-import { parseAccountBanking } from './parse';
 import bankingAccountModel from './model';
 
 const hideFields = { "_id": 0 };
@@ -9,12 +8,12 @@ const bankingAccountService = {
         return true;
     },
     async create(body) {
-        const newClient = await clientService.create(body);
+        const client = await clientService.create(body);
 
         const accountNumber = await generateAccountNumber();
 
         const newBankingAccount = {
-            clientCode: newClient._id,
+            clientCode: client._id,
             branchNumber: "0001",
             branchNumberDigit: "0",
             accountNumber,
@@ -23,8 +22,8 @@ const bankingAccountService = {
             availableBalance: 0
         };
 
-        const data = await bankingAccountModel.create(newBankingAccount);
-        return parseAccountBanking(newClient, data);
+        const bankingAccount = await bankingAccountModel.create(newBankingAccount);
+        return { client, bankingAccount };
     },
     async updateAvailableBalance(transaction, bankingAccount) {
         if (transaction.actionType === 'A') {
@@ -40,7 +39,7 @@ const bankingAccountService = {
         const bankingAccount = await bankingAccountModel.findOne({ fullAccountNumber }) || null;
         if (!bankingAccount) return null;
         const client = await clientService.getClientById(bankingAccount.clientCode);
-        return parseAccountBanking(client, bankingAccount);
+        return { client, bankingAccount };
     }
 }
 

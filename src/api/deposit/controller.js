@@ -7,8 +7,8 @@ const depositController = app => {
             if (!await depositService.validateDeposit(req.body)) {
                 return res.status(422).send('Failed to save deposit transaction. Request body with invalid values.');
             }
-
-            const newDeposit = await depositService.save(req.body, res.locals.currentBankingAccount);
+            const { bankingAccount } = res.locals.currentUser;
+            const newDeposit = await depositService.save(req.body, bankingAccount);
             res.status(201).send(newDeposit);
         } catch (e) {
             console.error(`Failed to save data from deposit service: ${e.message}`);

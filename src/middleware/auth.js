@@ -13,13 +13,13 @@ export const checkBankingAccount = async (req, res, next) => {
         return res.status(403).send('User has no permission');
     }
 
-    const currentBankingAccount = await bankingAccountService.getBankingAccount(fullAccountNumber);
+    const currentUser = await bankingAccountService.getBankingAccount(fullAccountNumber);
 
-    if (!currentBankingAccount) {
+    if (!currentUser) {
         return res.status(403).send('User has no permission');
     }
 
-    res.locals.currentBankingAccount = currentBankingAccount;
+    res.locals.currentUser = currentUser;
 
     next();
 }

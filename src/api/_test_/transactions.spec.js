@@ -16,7 +16,8 @@ describe('test get bank statement service', () => {
     });
 
     beforeEach(async () => {
-        bankingAccount = await createAndSaveMockAccount();
+        const currentUser = await createAndSaveMockAccount();
+        bankingAccount = currentUser.bankingAccount;
     });
 
     afterAll(async () => {
