@@ -32,7 +32,7 @@ describe('test withdraw service', () => {
 
             expect(deposit.availableBalance).toEqual(521.36);
 
-            const bodyMock = createMockWithdrawBody({ branchNumber: bankingAccount.branchNumber, fullAccountNumber: bankingAccount.fullAccountNumber });
+            const bodyMock = createMockWithdrawBody({});
 
             const expected = `{\"transactionType\":\"WD\",\"value\":36.45,\"actionType\":\"D\",\"labelDescription\":\"Banco 24 Horas\",\"branchNumber\":\"0001\",\"fullAccountNumber\":\"${bankingAccount.fullAccountNumber}\",\"operation\":{\"financialInstitution\":{\"companyName\":\"Banco 24 Horas\",\"cnpj\":\"24.363.105/0001-73\"}},\"date\":\"26/08/2020 11:37:22\",\"availableBalance\":484.91}`;
 
@@ -52,7 +52,7 @@ describe('test withdraw service', () => {
 
             expect(deposit.availableBalance).toEqual(521.36);
 
-            const bodyMock = createMockWithdrawBody({ branchNumber: bankingAccount.branchNumber, fullAccountNumber: bankingAccount.fullAccountNumber, financialInstitution: null });
+            const bodyMock = createMockWithdrawBody({ financialInstitution: null });
 
             request(appMock)
                 .post('/account/withdraw')
@@ -62,13 +62,13 @@ describe('test withdraw service', () => {
         });
 
         it('return error when banking account not exist with 404 status', async (done) => {
-            const bodyMock = createMockWithdrawBody({ branchNumber: "0001", fullAccountNumber: "123456-6" });
+            const bodyMock = createMockWithdrawBody({});
 
             request(appMock)
                 .post('/account/withdraw')
-                .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
+                .set('Authorization', `fakeToken&notexist&notexist`)
                 .send(bodyMock)
-                .expect(404, 'Failed to find client. Banking account not found!', done);
+                .expect(403, 'User has no permission', done);
         });
 
         it('return error when value is bigger than available balance with 500 status', async (done) => {
@@ -76,7 +76,7 @@ describe('test withdraw service', () => {
 
             expect(deposit.availableBalance).toEqual(521.36);
 
-            const bodyMock = createMockWithdrawBody({ branchNumber: bankingAccount.branchNumber, fullAccountNumber: bankingAccount.fullAccountNumber, value: 600.45 });
+            const bodyMock = createMockWithdrawBody({ value: 600.45 });
 
             request(appMock)
                 .post('/account/withdraw')

@@ -3,10 +3,8 @@ import transactionService from '../transaction/service';
 import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
 
 const withdrawService = {
-    async validate({ value = null, branchNumber = null, fullAccountNumber = null, financialInstitution = null }) {
+    async validate({ value = null, financialInstitution = null }) {
         return value != null && value > 0 &&
-            !stringIsNullOrEmpty(branchNumber) &&
-            !stringIsNullOrEmpty(fullAccountNumber) &&
             financialInstitution != null &&
             !stringIsNullOrEmpty(financialInstitution.cnpj) &&
             !stringIsNullOrEmpty(financialInstitution.companyName);

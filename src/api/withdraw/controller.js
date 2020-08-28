@@ -1,4 +1,3 @@
-import bankingAccountService from '../account/service';
 import withdrawService from './service';
 
 const withdrawController = app => {
@@ -8,11 +7,7 @@ const withdrawController = app => {
                 return res.status(422).send('Failed to save withdraw transaction. Request body with invalid values.');
             }
 
-            const currentBankingAccount = await bankingAccountService.getBankingAccount(body.fullAccountNumber);
-
-            if (currentBankingAccount == null) {
-                return res.status(404).send('Failed to find client. Banking account not found!');
-            }
+            const { currentBankingAccount } = res.locals;
 
             if (body.value > currentBankingAccount.availableBalance) {
                 return res.status(422).send('Failed to withdraw this value. Not enough balance available!');
