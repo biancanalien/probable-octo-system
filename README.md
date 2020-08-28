@@ -11,6 +11,8 @@ npm i
 
 ## Usage
 
+Create a `.env` with the Mongodb variables like `.env.example`
+
 ```bash
 npm start 
 ```
