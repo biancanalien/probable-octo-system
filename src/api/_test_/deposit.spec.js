@@ -28,12 +28,12 @@ describe('test save deposit service', () => {
 
     it('return saved deposit with 201 status', async (done) => {
         const bodyMock = createMockDepositBody({});
-        const responseExpected = { transactionType: 'DP', value: 521.36, actionType: 'A', labelDescription: 'Bianca Nalien da Cunha Pereira | Banco Raiz', branchNumber: bankingAccount.branchNumber, fullAccountNumber: bankingAccount.fullAccountNumber, operation: { payingSource: { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' }, depositType: 'DOC' }, date: '26/08/2020 11:37:22', availableBalance: 521.36 };
+        const responseExpected = { "currentTransaction": { "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, "currentBankingAccount": { "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "availableBalance": "R$ 521,36" } };
         request(appMock)
             .post('/account/deposit')
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
             .send(bodyMock)
-            .expect(201, responseExpected, done);
+            .expect(201, JSON.stringify(responseExpected), done);
     });
 
     it('return error when saving deposit has invalid values with 422 status', async (done) => {

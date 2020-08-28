@@ -31,12 +31,12 @@ describe('test get bank statement service', () => {
         await createAndSaveMockDeposit(bankingAccount);
         await createAndSaveMockDeposit(bankingAccount);
 
-        const expected = [{ "transactionType": "DP", "value": 521.36, "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, { "transactionType": "DP", "value": 521.36, "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, { "transactionType": "DP", "value": 521.36, "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }];
+        const expected = { "bankStatementResult": [{ "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, { "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, { "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }], "currentBankingAccount": { "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "availableBalance": "R$ 1.564,08" } };
 
         request(appMock)
             .get('/account/bank-statement')
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
-            .expect(200, expected, done);
+            .expect(200, JSON.stringify(expected), done);
     });
 
     it('return another page of transactions list with 200 status', async (done) => {
@@ -44,13 +44,13 @@ describe('test get bank statement service', () => {
             await createAndSaveMockDeposit(bankingAccount);
         }
 
-        const expected = [{ "transactionType": "DP", "value": 521.36, "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, { "transactionType": "DP", "value": 521.36, "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }];
+        const expected = { "bankStatementResult": [{ "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, { "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }], "currentBankingAccount": { "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "availableBalance": "R$ 11.469,92" } };
 
         request(appMock)
             .get('/account/bank-statement')
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
             .query({ page: 2 })
-            .expect(200, expected, done);
+            .expect(200, JSON.stringify(expected), done);
     });
 
     it('return error when failed to find banking accoount with 404 status', async (done) => {

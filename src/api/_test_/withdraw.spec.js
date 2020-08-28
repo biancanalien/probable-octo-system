@@ -30,11 +30,11 @@ describe('test withdraw service', () => {
         it('return saved withdraw transaction with 200 status', async (done) => {
             const deposit = await createAndSaveMockDeposit(bankingAccount);
 
-            expect(deposit.availableBalance).toEqual(521.36);
+            expect(deposit.currentBankingAccount.availableBalance).toEqual("R$ 521,36");
 
             const bodyMock = createMockWithdrawBody({});
 
-            const expected = `{\"transactionType\":\"WD\",\"value\":36.45,\"actionType\":\"D\",\"labelDescription\":\"Banco 24 Horas\",\"branchNumber\":\"0001\",\"fullAccountNumber\":\"${bankingAccount.fullAccountNumber}\",\"operation\":{\"financialInstitution\":{\"companyName\":\"Banco 24 Horas\",\"cnpj\":\"24.363.105/0001-73\"}},\"date\":\"26/08/2020 11:37:22\",\"availableBalance\":484.91}`;
+            const expected = { "currentBankingAccount": { "availableBalance": "R$ 484,91", "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, }, "currentTransaction": { "actionType": "D", "date": "26/08/2020 11:37:22", "labelDescription": "Banco 24 Horas", "operation": { "financialInstitution": { "cnpj": "24.363.105/0001-73", "companyName": "Banco 24 Horas" } }, "transactionType": "WD", "value": "R$ 36,45" } }
 
             request(appMock)
                 .post('/account/withdraw')
@@ -42,7 +42,7 @@ describe('test withdraw service', () => {
                 .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
                 .expect(201, (err, resp) => {
                     if (err) throw err;
-                    expect(resp.text).toEqual(expected);
+                    expect(JSON.parse(resp.text)).toEqual(expected);
                     done();
                 });
         });
@@ -50,7 +50,7 @@ describe('test withdraw service', () => {
         it('return error when body is invalid with 422 status', async (done) => {
             const deposit = await createAndSaveMockDeposit(bankingAccount);
 
-            expect(deposit.availableBalance).toEqual(521.36);
+            expect(deposit.currentBankingAccount.availableBalance).toEqual("R$ 521,36");
 
             const bodyMock = createMockWithdrawBody({ financialInstitution: null });
 
@@ -74,7 +74,7 @@ describe('test withdraw service', () => {
         it('return error when value is bigger than available balance with 500 status', async (done) => {
             const deposit = await createAndSaveMockDeposit(bankingAccount);
 
-            expect(deposit.availableBalance).toEqual(521.36);
+            expect(deposit.currentBankingAccount.availableBalance).toEqual("R$ 521,36");
 
             const bodyMock = createMockWithdrawBody({ value: 600.45 });
 
