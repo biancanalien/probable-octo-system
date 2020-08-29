@@ -1,7 +1,7 @@
-import { createAndSaveMockAccount } from './dataMock';
+import { createAndSaveMockAccount } from './_helpers_/dataMock';
 import { createMockDepositBody } from '../_mocks_/bodyMock';
-import appMock from './appMock';
-import dbMock from './dbMock';
+import appMock from './_helpers_/appMock';
+import dbMock from './_helpers_/dbMock';
 import { baseURL } from '../../../constant/route';
 import request from 'supertest';
 
@@ -32,7 +32,7 @@ describe('test save deposit service', () => {
 
     it('return saved deposit with 201 status', async (done) => {
         const bodyMock = createMockDepositBody({});
-        const responseExpected = { "currentTransaction": { "transactionType": "DP", "value": "R$ 521,36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, "currentBankingAccount": { "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "availableBalance": "R$ 521,36" } };
+        const responseExpected = { "currentTransaction": { "transactionType": "DP", "value": "R$ 521.36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, "currentBankingAccount": { "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "availableBalance": "R$ 521.36" } };
         request(appMock)
             .post(depositEndpoint)
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)

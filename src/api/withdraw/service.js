@@ -1,6 +1,7 @@
 import { transactionType, actionType } from '../../constant/transactionEnum';
 import transactionService from '../transaction/service';
 import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
+import { transformToNumber } from '../../helpers/numberHelper';
 
 const withdrawService = {
     async validate({ value = null, financialInstitution = null }) {
@@ -18,7 +19,7 @@ const withdrawService = {
 const mountWithdrawOperation = ({ value, financialInstitution }, bankingAccount) => {
     return {
         transactionType: transactionType.Withdraw,
-        value,
+        value: transformToNumber(value),
         actionType: actionType.Debit,
         labelDescription: financialInstitution.companyName,
         branchNumber: bankingAccount.branchNumber,

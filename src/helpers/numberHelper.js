@@ -1,6 +1,12 @@
 export const formatToBRMoney = value => {
-    return new Intl.NumberFormat("pt-BR",  {
-        style: 'currency',
-        currency: "BRL"
-    }).format(value);
+    try {
+        return `R$ ${value.toFixed(2)}`;
+    } catch (e) {
+        console.log(e, value);
+        return `R$ ${value}`;
+    }
 };
+
+export const transformToNumber = value => {
+    return parseFloat(value);
+}

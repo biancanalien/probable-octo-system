@@ -58,7 +58,7 @@ curl --location --request POST 'http://localhost:8000/api/v1/operation/deposit' 
 --header 'Content-Type: application/json' \
 --data-raw '{
     "depositType": "DOC",
-    "value": 145.58,
+    "value": "145.58",
     "payingSource": {
         "bankName": "Banco Raiz",
         "bankNumber": "123",
@@ -103,7 +103,7 @@ curl --location --request POST 'http://localhost:8000/api/v1/operation/withdraw'
 --header 'Authorization: fakeToken&543190-0&0001' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "value": 100.55,
+    "value": "100.55",
     "financialInstitution": {
         "companyName": "Banco 24 Horas",
         "cnpj": "24.363.105/0001-73"

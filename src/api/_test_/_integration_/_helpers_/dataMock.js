@@ -1,6 +1,6 @@
-import bankingAccountService from '../../account/service';
-import depositService from '../../deposit/service';
-import { createMockDepositBody } from '../_mocks_/bodyMock';
+import bankingAccountService from '../../../account/service';
+import depositService from '../../../deposit/service';
+import { createMockDepositBody } from '../../_mocks_/bodyMock';
 
 export const createAndSaveMockDeposit = async (bankingAccount, depositBody = null) => {
     if (depositBody == null) {

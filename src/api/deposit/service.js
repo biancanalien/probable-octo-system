@@ -2,6 +2,7 @@ import { transactionType, actionType } from '../../constant/transactionEnum';
 import transactionService from '../transaction/service';
 import { depositTypeEnum } from '../../constant/depositEnum';
 import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
+import { transformToNumber } from '../../helpers/numberHelper';
 
 const depositService = {
     async validateDeposit({ depositType = null, value = null, payingSource = null }) {
@@ -32,7 +33,7 @@ const mountDepositTransaction = (operation, bankingAccount) => {
 
     return {
         transactionType: transactionType.Deposit,
-        value: operation.value,
+        value: transformToNumber(operation.value),
         actionType: actionType.Addition,
         labelDescription,
         branchNumber: bankingAccount.branchNumber,

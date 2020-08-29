@@ -37,3 +37,9 @@ export const createMockWithdrawBody = ({
     value,
     financialInstitution
 });
+
+export const createMockClientBody = ({
+    fullName = "Cintia Carvalho",
+    document = "456.123.456-78",
+    email = "cintia@email.com"
+}) => ({ fullName, document, email });

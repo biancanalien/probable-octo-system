@@ -1,11 +1,17 @@
 import clientService from '../client/service';
 import bankingAccountModel from './model';
+import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
 
 const hideFields = { "_id": 0 };
 
 const bankingAccountService = {
-    validateBankingAccount() {
-        return true;
+    validateBankingAccount({ fullName = null, email = null, document = null }) {
+        return fullName != null &&
+            !stringIsNullOrEmpty(fullName) &&
+            email != null &&
+            !stringIsNullOrEmpty(email) &&
+            document != null &&
+            !stringIsNullOrEmpty(document);
     },
     async create(body) {
         const client = await clientService.create(body);
