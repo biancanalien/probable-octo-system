@@ -14,17 +14,17 @@ describe('test validateDeposit service', () => {
         });
 
         it('return false when depositType is not valid', async () => {
-            const m = createMockDepositBody({ depositType: "BLA" });
+            const m = createMockDepositBody({ depositType: 'BLA' });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("BLA");
+            expect(m.depositType).toEqual('BLA');
         });
 
         it('return true when depositType is TED', async () => {
-            const m = createMockDepositBody({ depositType: "TED" });
+            const m = createMockDepositBody({ depositType: 'TED' });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeTruthy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
         });
 
         it('return true when depositType is DOC', async () => {
@@ -77,221 +77,221 @@ describe('test validateDeposit service', () => {
             const m = createMockDepositBody({ payingSource: null });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(null);
         });
 
         it('return false when depositType is DOC and payingSource.bankName is null', async () => {
-            const psm = { bankName: null, bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: null, bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.bankName is empty', async () => {
-            const psm = { bankName: " ", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: ' ', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.bankNumber is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: null, branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: 'Banco Raiz', bankNumber: null, branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.bankNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: null, branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: 'Banco Raiz', bankNumber: null, branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.branchNumber is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: null, fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: null, fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.branchNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: " ", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: ' ', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.fullAccountNumber is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: null, clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: null, clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.fullAccountNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: " ", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: ' ', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.clientName is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: null };
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: null };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is DOC and payingSource.fullAccountNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: " " };
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: ' ' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return true when depositType is DOC and payingSource is complete', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
             const m = createMockDepositBody({ payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeTruthy();
-            expect(m.depositType).toEqual("DOC");
+            expect(m.depositType).toEqual('DOC');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource is null', async () => {
-            const m = createMockDepositBody({ depositType: "TED", payingSource: null });
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: null });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(null);
         });
 
         it('return false when depositType is TED and payingSource.bankName is null', async () => {
-            const psm = { bankName: null, bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: null, bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.bankName is empty', async () => {
-            const psm = { bankName: " ", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: ' ', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.bankNumber is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: null, branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: null, branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.bankNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: null, branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: null, branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.branchNumber is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: null, fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: null, fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.branchNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: " ", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: ' ', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.fullAccountNumber is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: null, clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: null, clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.fullAccountNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: " ", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: ' ', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.clientName is null', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: null };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: null };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return false when depositType is TED and payingSource.fullAccountNumber is empty', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: " " };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: ' ' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeFalsy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return true when depositType is TED and payingSource is complete', async () => {
-            const psm = { bankName: "Banco Raiz", bankNumber: "123", branchNumber: "2345", fullAccountNumber: "654321-0", clientName: "Bianca Nalien da Cunha Pereira" };
-            const m = createMockDepositBody({ depositType: "TED", payingSource: psm });
+            const psm = { bankName: 'Banco Raiz', bankNumber: '123', branchNumber: '2345', fullAccountNumber: '654321-0', clientName: 'Bianca Nalien da Cunha Pereira' };
+            const m = createMockDepositBody({ depositType: 'TED', payingSource: psm });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeTruthy();
-            expect(m.depositType).toEqual("TED");
+            expect(m.depositType).toEqual('TED');
             expect(m.payingSource).toEqual(psm);
         });
 
         it('return true when depositType is BLT and payingSource is null', async () => {
-            const m = createMockDepositBody({ depositType: "BLT", payingSource: null });
+            const m = createMockDepositBody({ depositType: 'BLT', payingSource: null });
             const output = await depositService.validateDeposit(m);
             expect(output).toBeTruthy();
-            expect(m.depositType).toEqual("BLT");
+            expect(m.depositType).toEqual('BLT');
             expect(m.payingSource).toEqual(null);
         });
     });
@@ -306,6 +306,6 @@ describe('test save service', () => {
         const md = createMockDepositBody({});
         const mb = createMockBankingAccountBody({});
         const output = await depositService.save(md, mb);
-        expect(output).toEqual({ "_id": "5f481647e864e3722befc81b", "actionType": "A", "branchNumber": "0001", "date": "1598559815898", "fullAccountNumber": "543190-0", "labelDescription": "José Maria Silva | Banco Raiz", "operation": { "depositType": "DOC", "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "clientName": "Carol Silva e Silva", "fullAccountNumber": "654321-0" } }, "transactionType": "DP", "value": 20.45 });
+        expect(output).toEqual({ '_id': '5f481647e864e3722befc81b', 'actionType': 'A', 'branchNumber': '0001', 'date': '1598559815898', 'fullAccountNumber': '543190-0', 'labelDescription': 'José Maria Silva | Banco Raiz', 'operation': { 'depositType': 'DOC', 'payingSource': { 'bankName': 'Banco Raiz', 'bankNumber': '123', 'branchNumber': '2345', 'clientName': 'Carol Silva e Silva', 'fullAccountNumber': '654321-0' } }, 'transactionType': 'DP', 'value': 20.45 });
     });
 });

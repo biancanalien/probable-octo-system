@@ -45,7 +45,7 @@ describe('test validate withdraw service', () => {
         });
 
         it('return false when financialInstitution.companyName is null', async () => {
-            const financialInstitution = { companyName: null, cnpj: "24.363.105/0001-73" };
+            const financialInstitution = { companyName: null, cnpj: '24.363.105/0001-73' };
             const m = createMockWithdrawBody({ financialInstitution });
             const output = await withdrawService.validate(m);
             expect(output).toBeFalsy();
@@ -53,7 +53,7 @@ describe('test validate withdraw service', () => {
         });
 
         it('return false when financialInstitution.companyName is empty', async () => {
-            const financialInstitution = { companyName: "", cnpj: "24.363.105/0001-73" };
+            const financialInstitution = { companyName: '', cnpj: '24.363.105/0001-73' };
             const m = createMockWithdrawBody({ financialInstitution });
             const output = await withdrawService.validate(m);
             expect(output).toBeFalsy();
@@ -61,7 +61,7 @@ describe('test validate withdraw service', () => {
         });
 
         it('return false when financialInstitution.cnpj is null', async () => {
-            const financialInstitution = { companyName: "Banco 24 Horas", cnpj: null };
+            const financialInstitution = { companyName: 'Banco 24 Horas', cnpj: null };
             const m = createMockWithdrawBody({ financialInstitution });
             const output = await withdrawService.validate(m);
             expect(output).toBeFalsy();
@@ -69,7 +69,7 @@ describe('test validate withdraw service', () => {
         });
 
         it('return false when financialInstitution.cnpj is empty', async () => {
-            const financialInstitution = { companyName: "Banco 24 Horas", cnpj: "" };
+            const financialInstitution = { companyName: 'Banco 24 Horas', cnpj: '' };
             const m = createMockWithdrawBody({ financialInstitution });
             const output = await withdrawService.validate(m);
             expect(output).toBeFalsy();
@@ -87,6 +87,6 @@ describe('test save service', () => {
         const mw = createMockWithdrawBody({});
         const mb = createMockBankingAccountBody({});
         const output = await withdrawService.save(mw, mb);
-        expect(output).toEqual({ "_id": "5f481647e864e3722befc81d", "actionType": "D", "branchNumber": "0001", "date": "1598559815898", "fullAccountNumber": "543190-0", "labelDescription": "Banco 24 Horas", "operation": { "financialInstitution": { "cnpj": "24.363.105/0001-73", "companyName": "Banco 24 Horas", }, }, "transactionType": "WD", "value": 20.45, });
+        expect(output).toEqual({ '_id': '5f481647e864e3722befc81d', 'actionType': 'D', 'branchNumber': '0001', 'date': '1598559815898', 'fullAccountNumber': '543190-0', 'labelDescription': 'Banco 24 Horas', 'operation': { 'financialInstitution': { 'cnpj': '24.363.105/0001-73', 'companyName': 'Banco 24 Horas', }, }, 'transactionType': 'WD', 'value': 20.45, });
     });
 });

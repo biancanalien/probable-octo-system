@@ -13,7 +13,7 @@ const bankingAccountController = app => {
             res.status(201).send(parseAccountBanking(client, bankingAccount));
         } catch (e) {
             console.error(`Failed to create data from banking account service ${e.message}`);
-            res.status(500).send(`Failed when trying to create client banking account`);
+            res.status(500).send('Failed when trying to create client banking account');
         }
     });
 
@@ -23,7 +23,7 @@ const bankingAccountController = app => {
             res.status(200).send(parseAccountBanking(client, bankingAccount));
         } catch (e) {
             console.error(`Failed to create data from banking account service ${e.message}`);
-            res.status(500).send(`Failed when trying to create client banking account`);
+            res.status(500).send('Failed when trying to create client banking account');
         }
     });
 };

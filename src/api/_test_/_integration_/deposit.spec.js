@@ -32,7 +32,7 @@ describe('test save deposit service', () => {
 
     it('return saved deposit with 201 status', async (done) => {
         const bodyMock = createMockDepositBody({});
-        const responseExpected = { "currentTransaction": { "transactionType": "DP", "value": "R$ 521.36", "actionType": "A", "labelDescription": "Bianca Nalien da Cunha Pereira | Banco Raiz", "operation": { "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "fullAccountNumber": "654321-0", "clientName": "Bianca Nalien da Cunha Pereira" }, "depositType": "DOC" }, "date": "26/08/2020 11:37:22" }, "currentBankingAccount": { "branchNumber": "0001", "fullAccountNumber": bankingAccount.fullAccountNumber, "availableBalance": "R$ 521.36" } };
+        const responseExpected = { 'currentTransaction': { 'transactionType': 'DP', 'value': 'R$ 521.36', 'actionType': 'A', 'labelDescription': 'Bianca Nalien da Cunha Pereira | Banco Raiz', 'operation': { 'payingSource': { 'bankName': 'Banco Raiz', 'bankNumber': '123', 'branchNumber': '2345', 'fullAccountNumber': '654321-0', 'clientName': 'Bianca Nalien da Cunha Pereira' }, 'depositType': 'DOC' }, 'date': '26/08/2020 11:37:22' }, 'currentBankingAccount': { 'branchNumber': '0001', 'fullAccountNumber': bankingAccount.fullAccountNumber, 'availableBalance': 'R$ 521.36' } };
         request(appMock)
             .post(depositEndpoint)
             .set('Authorization', `fakeToken&${bankingAccount.fullAccountNumber}&${bankingAccount.branchNumber}`)
@@ -41,7 +41,7 @@ describe('test save deposit service', () => {
     });
 
     it('return error when saving deposit has invalid values with 422 status', async (done) => {
-        const bodyMock = createMockDepositBody({ depositType: "BLA" });
+        const bodyMock = createMockDepositBody({ depositType: 'BLA' });
 
         request(appMock)
             .post(depositEndpoint)
@@ -54,7 +54,7 @@ describe('test save deposit service', () => {
         const bodyMock = createMockDepositBody({});
         request(appMock)
             .post(depositEndpoint)
-            .set('Authorization', `fakeToken&notValidAccountNumber&notValidBranchNumber`)
+            .set('Authorization', 'fakeToken&notValidAccountNumber&notValidBranchNumber')
             .send(bodyMock)
             .expect(403, 'User has no permission', done);
     });

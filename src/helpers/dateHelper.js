@@ -3,5 +3,5 @@ export const currentDate = () => {
 }
 
 export const formatToBRDateString = date => {
-    return date.toLocaleString("pt-BR");
+    return date.toLocaleString('pt-BR');
 }

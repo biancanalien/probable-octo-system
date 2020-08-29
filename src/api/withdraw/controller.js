@@ -18,7 +18,7 @@ const withdrawController = app => {
             res.status(201).send(newWithdraw);
         } catch (e) {
             console.error(`Failed to save data from withdraw service: ${e.message}`);
-            res.status(500).send(`Failed when trying to save withdraw`);
+            res.status(500).send('Failed when trying to save withdraw');
         }
     });
 }

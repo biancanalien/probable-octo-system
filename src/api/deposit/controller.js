@@ -12,7 +12,7 @@ const depositController = app => {
             res.status(201).send(newDeposit);
         } catch (e) {
             console.error(`Failed to save data from deposit service: ${e.message}`);
-            res.status(500).send(`Failed when trying to save deposit`);
+            res.status(500).send('Failed when trying to save deposit');
         }
     });
 };

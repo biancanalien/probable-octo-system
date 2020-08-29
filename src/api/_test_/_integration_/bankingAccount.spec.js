@@ -29,7 +29,7 @@ describe('test create banking account services', () => {
 
     it('return saved banking account with 201 status', async (done) => {
         const bodyMock = createMockClientBody({});
-        const expected = { "availableBalance": "R$ 0.00", "branchNumber": "0001", "email": "cintia@email.com", "fullAccountNumber": "550000-0", "fullName": "Cintia Carvalho", };
+        const expected = { 'availableBalance': 'R$ 0.00', 'branchNumber': '0001', 'email': 'cintia@email.com', 'fullAccountNumber': '550000-0', 'fullName': 'Cintia Carvalho', };
         request(appMock)
             .post(bankingAccountEndpoint)
             .send(bodyMock)
@@ -41,7 +41,7 @@ describe('test create banking account services', () => {
     });
 
     it('return error when saving deposit has invalid values with 422 status', async (done) => {
-        const bodyMock = createMockClientBody({ fullName: "" });
+        const bodyMock = createMockClientBody({ fullName: '' });
 
         request(appMock)
             .post(bankingAccountEndpoint)

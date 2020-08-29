@@ -1,1 +1,1 @@
-export const depositTypeEnum = ["TED", "DOC", "BLT"];
+export const depositTypeEnum = ['TED', 'DOC', 'BLT'];

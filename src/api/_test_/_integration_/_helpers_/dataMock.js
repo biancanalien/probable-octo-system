@@ -12,8 +12,8 @@ export const createAndSaveMockDeposit = async (bankingAccount, depositBody = nul
 
 export const createAndSaveMockAccount = async () => {
     return await bankingAccountService.create({
-        fullName: "Maria Andrade Pires",
-        document: "123.456.456-98",
-        email: "maria@email.com"
+        fullName: 'Maria Andrade Pires',
+        document: '123.456.456-98',
+        email: 'maria@email.com'
     });
 };

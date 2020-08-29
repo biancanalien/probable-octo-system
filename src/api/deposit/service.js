@@ -49,7 +49,7 @@ const mountDepositOperation = ({ payingSource = null, depositType }) => ({
 
 const mountLabelDescription = ({ depositType, payingSource }) => {
     if (depositType === 'BLT') {
-        return "Depósito por boleto";
+        return 'Depósito por boleto';
     }
 
     const { bankName = null, clientName = null } = payingSource;

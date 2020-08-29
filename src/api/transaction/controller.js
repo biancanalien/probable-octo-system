@@ -11,7 +11,7 @@ const transactionController = (app) => {
             res.status(200).send(parseBankStatement(transactions, bankingAccount));
         } catch (e) {
             console.error(`Failed to retrieve data from bank statement service: ${e.message}`);
-            res.status(500).send(`Failed when trying to retrieve data from bank statement service`);
+            res.status(500).send('Failed when trying to retrieve data from bank statement service');
         }
     });
 }

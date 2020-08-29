@@ -2,7 +2,7 @@ import clientService from '../client/service';
 import bankingAccountModel from './model';
 import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
 
-const hideFields = { "_id": 0 };
+const hideFields = { '_id': 0 };
 
 const bankingAccountService = {
     validateBankingAccount({ fullName = null, email = null, document = null }) {
@@ -20,10 +20,10 @@ const bankingAccountService = {
 
         const newBankingAccount = {
             clientCode: client._id,
-            branchNumber: "0001",
-            branchNumberDigit: "0",
+            branchNumber: '0001',
+            branchNumberDigit: '0',
             accountNumber,
-            accountNumberDigit: "0",
+            accountNumberDigit: '0',
             fullAccountNumber: `${accountNumber}-0`,
             availableBalance: 0
         };
