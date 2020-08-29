@@ -1,41 +1,51 @@
 import clientService from '../client/service';
-import { parseAccountBanking } from './parse';
 import bankingAccountModel from './model';
+import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
 
-const hideFields = { "_id": 0 };
+const hideFields = { '_id': 0 };
 
 const bankingAccountService = {
-    validateBankingAccount() {
-        return true;
+    validateBankingAccount({ fullName = null, email = null, document = null }) {
+        return fullName != null &&
+            !stringIsNullOrEmpty(fullName) &&
+            email != null &&
+            !stringIsNullOrEmpty(email) &&
+            document != null &&
+            !stringIsNullOrEmpty(document);
     },
     async create(body) {
-        const newClient = await clientService.create(body);
+        const client = await clientService.create(body);
 
         const accountNumber = await generateAccountNumber();
 
         const newBankingAccount = {
-            clientCode: newClient._id,
-            branchNumber: "0001",
-            branchNumberDigit: "0",
+            clientCode: client._id,
+            branchNumber: '0001',
+            branchNumberDigit: '0',
             accountNumber,
-            accountNumberDigit: "0",
+            accountNumberDigit: '0',
             fullAccountNumber: `${accountNumber}-0`,
             availableBalance: 0
         };
 
-        const data = await bankingAccountModel.create(newBankingAccount);
-        return parseAccountBanking(newClient, data);
+        const bankingAccount = await bankingAccountModel.create(newBankingAccount);
+        return { client, bankingAccount };
     },
-    async updateAvailableBalance(transaction) {
-        const bankingAccount = await this.getBankingAccount(transaction.fullAccountNumber);
+    async updateAvailableBalance(transaction, bankingAccount) {
+        if (transaction.actionType === 'A') {
+            bankingAccount.availableBalance += transaction.value;
+        } else if (transaction.actionType === 'D') {
+            bankingAccount.availableBalance -= transaction.value;
+        }
 
-        if (bankingAccount == null)
-            return null;
-
-        return await updateAvailableBalance(transaction, bankingAccount);
+        return await bankingAccountModel
+            .findOneAndUpdate({ 'fullAccountNumber': bankingAccount.fullAccountNumber }, bankingAccount, { new: true, upsert: true, fields: hideFields })
     },
     async getBankingAccount(fullAccountNumber) {
-        return await bankingAccountModel.findOne({ fullAccountNumber }) || null;
+        const bankingAccount = await bankingAccountModel.findOne({ fullAccountNumber }) || null;
+        if (!bankingAccount) return null;
+        const client = await clientService.getClientById(bankingAccount.clientCode);
+        return { client, bankingAccount };
     }
 }
 
@@ -52,16 +62,6 @@ const generateAccountNumber = async () => {
 const accountExist = async (accountNumber) => {
     const account = await bankingAccountModel.findOne({ accountNumber });
     return account != null;
-}
-
-const updateAvailableBalance = async (transaction, bankingAccount) => {
-    if (transaction.actionType === 'A') {
-        bankingAccount.availableBalance += transaction.value;
-    } else if (transaction.actionType === 'D') {
-        bankingAccount.availableBalance -= transaction.value;
-    }
-
-    return await bankingAccountModel.findOneAndUpdate({ 'fullAccountNumber': transaction.fullAccountNumber }, bankingAccount, { new: true, upsert: true, fields: hideFields })
 }
 
 export default bankingAccountService;

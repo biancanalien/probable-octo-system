@@ -1,28 +1,28 @@
 
 import { formatToBRDateString } from '../../helpers/dateHelper';
+import { formatToBRMoney } from '../../helpers/numberHelper';
 
-export const parseTransaction = (
-    { transactionType, value, actionType, labelDescription, branchNumber, fullAccountNumber, operation, date },
-    { availableBalance }) => ({
-        transactionType,
-        value,
-        actionType,
-        labelDescription,
-        branchNumber,
-        fullAccountNumber,
-        operation,
-        date: formatToBRDateString(date),
-        availableBalance
-    });
+export const parseTransaction = (operation, bankingAccount) => ({
+    currentTransaction: parseOperation(operation),
+    currentBankingAccount: parseBankingAccount(bankingAccount)
+});
 
-export const parseBankStatement = (
-    { transactionType, value, actionType, labelDescription, branchNumber, fullAccountNumber, operation, date }) => ({
-        transactionType,
-        value,
-        actionType,
-        labelDescription,
-        branchNumber,
-        fullAccountNumber,
-        operation,
-        date: formatToBRDateString(date)
-    });
+export const parseBankStatement = (transactions, bankingAccount) => ({
+    bankStatementResult: transactions.map(t => parseOperation(t)),
+    currentBankingAccount: parseBankingAccount(bankingAccount)
+});
+
+const parseBankingAccount = ({ branchNumber, fullAccountNumber, availableBalance }) => ({
+    branchNumber,
+    fullAccountNumber,
+    availableBalance: formatToBRMoney(availableBalance)
+});
+
+const parseOperation = ({ transactionType, value, actionType, labelDescription, operation, date }) => ({
+    transactionType,
+    value: formatToBRMoney(value),
+    actionType,
+    labelDescription,
+    operation,
+    date: formatToBRDateString(date),
+});

@@ -2,14 +2,13 @@ import { transactionType, actionType } from '../../constant/transactionEnum';
 import transactionService from '../transaction/service';
 import { depositTypeEnum } from '../../constant/depositEnum';
 import { stringIsNullOrEmpty } from '../../helpers/stringHelper';
+import { transformToNumber } from '../../helpers/numberHelper';
 
 const depositService = {
-    async validateDeposit({ depositType = null, value = null, branchNumber = null, fullAccountNumber = null, payingSource = null }) {
+    async validateDeposit({ depositType = null, value = null, payingSource = null }) {
         let depositIsValid = depositType != null &&
-            depositTypeEnum.includes(depositType) &&
-            value != null && value > 0 &&
-            !stringIsNullOrEmpty(branchNumber) &&
-            !stringIsNullOrEmpty(fullAccountNumber);
+            depositTypeEnum.includes(depositType.toUpperCase()) &&
+            value != null && value > 0;
 
         if (depositType != 'BLT') {
             depositIsValid = depositIsValid &&
@@ -22,33 +21,35 @@ const depositService = {
         }
         return depositIsValid;
     },
-    async save(body) {
-        const operation = createDepositOperation(body);
-
-        const labelDescription = mountLabelDescription(operation);
-
-        const newTransaction = {
-            transactionType: transactionType.Deposit,
-            value: body.value,
-            actionType: actionType.Addition,
-            labelDescription,
-            branchNumber: body.branchNumber,
-            fullAccountNumber: body.fullAccountNumber,
-            operation
-        };
-
-        return await transactionService.create(newTransaction);
+    async save(operation, bankingAccount) {
+        const newTransaction = mountDepositTransaction(operation, bankingAccount);
+        return await transactionService.create(newTransaction, bankingAccount);
     }
 }
 
-const createDepositOperation = ({ payingSource = null, depositType }) => ({
+const mountDepositTransaction = (operation, bankingAccount) => {
+    const depositOperation = mountDepositOperation(operation);
+    const labelDescription = mountLabelDescription(depositOperation);
+
+    return {
+        transactionType: transactionType.Deposit,
+        value: transformToNumber(operation.value),
+        actionType: actionType.Addition,
+        labelDescription,
+        branchNumber: bankingAccount.branchNumber,
+        fullAccountNumber: bankingAccount.fullAccountNumber,
+        operation: depositOperation
+    };
+}
+
+const mountDepositOperation = ({ payingSource = null, depositType }) => ({
     payingSource,
     depositType
 });
 
 const mountLabelDescription = ({ depositType, payingSource }) => {
     if (depositType === 'BLT') {
-        return "Depósito por boleto";
+        return 'Depósito por boleto';
     }
 
     const { bankName = null, clientName = null } = payingSource;

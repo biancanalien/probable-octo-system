@@ -4,18 +4,13 @@ import { parseTransaction } from './parse';
 import { currentDate } from '../../helpers/dateHelper';
 
 const transactionService = {
-    async create(newTransaction) {
+    async create(newTransaction, currentBankingAccount) {
         newTransaction.date = currentDate();
         const transaction = await transactionModel.create(newTransaction);
-        const bankingAccount = await bankingAccountService.updateAvailableBalance(transaction);
-
-        if (bankingAccount == null) {
-            await transactionModel.findByIdAndDelete(transaction._id);
-            return null;
-        }
-
+        const bankingAccount = await bankingAccountService.updateAvailableBalance(transaction, currentBankingAccount);
         return parseTransaction(transaction, bankingAccount);
     },
+    
     getBankStatement(fullAccountNumber, branchNumber, page = 1) {
         const pageSize = 20;
         const skip = (page - 1) * pageSize;
