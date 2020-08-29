@@ -44,7 +44,7 @@ export const mockBankingAccountModel = {
     accountNumber: "878564",
     accountNumberDigit: "0",
     fullAccountNumber: "878564-0",
-    availableBalance: "254.95"
+    availableBalance: 254.95
 };
 
 export const mockBankStatementResult = [
