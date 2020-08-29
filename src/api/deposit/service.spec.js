@@ -1,3 +1,4 @@
+import transactionService from '../transaction/service';
 import depositService from './service';
 
 describe('test validateDeposit service', () => {
@@ -294,6 +295,51 @@ describe('test validateDeposit service', () => {
     });
 });
 
+describe('test save service', () => {
+
+    const mockCreateTransaction = transactionService.create = jest.fn();
+
+    it('save deposit correctly', async () => {
+        mockCreateTransaction.mockReturnValueOnce(mockTransactionModel);
+        const md = mockDeposit({});
+        const mb = mockBankingAccount({});
+        const output = await depositService.save(md, mb);
+        expect(output).toEqual({ "_id": "5f481647e864e3722befc81d", "actionType": "A", "branchNumber": "0001", "date": "1598559815898", "fullAccountNumber": "543190-0", "labelDescription": "José Maria Silva | Banco Raiz", "operation": { "depositType": "DOC", "payingSource": { "bankName": "Banco Raiz", "bankNumber": "123", "branchNumber": "2345", "clientName": "José Maria Silva", "fullAccountNumber": "654321-0", } }, "transactionType": "DP", "value": 521.36, });
+    });
+});
+
+const mockTransactionModel = {
+    _id: "5f481647e864e3722befc81d",
+    transactionType: "DP",
+    value: 521.36,
+    actionType: "A",
+    labelDescription: "José Maria Silva | Banco Raiz",
+    branchNumber: "0001",
+    fullAccountNumber: "543190-0",
+    operation: {
+        payingSource: {
+            bankName: "Banco Raiz",
+            bankNumber: "123",
+            branchNumber: "2345",
+            fullAccountNumber: "654321-0",
+            clientName: "José Maria Silva"
+        },
+        depositType: "DOC"
+    },
+    date: "1598559815898"
+};
+
+const mockBankingAccount = ({
+    branchNumber = "0001",
+    branchNumberDigit = "0",
+    accountNumber = "543190",
+    accountNumberDigit = "0",
+    fullAccountNumber = "543190-0",
+    availableBalance = 0
+}) => {
+    return { branchNumber, branchNumberDigit, accountNumber, accountNumberDigit, fullAccountNumber, availableBalance };
+};
+
 const mockDeposit = ({
     depositType = "DOC",
     value = 521.36,
@@ -302,7 +348,7 @@ const mockDeposit = ({
         bankNumber: "123",
         branchNumber: "2345",
         fullAccountNumber: "654321-0",
-        clientName: "Bianca Nalien da Cunha Pereira"
+        clientName: "José Maria Silva"
     }
 }) => {
     return { depositType, value, payingSource };
