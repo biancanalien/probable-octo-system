@@ -1,5 +1,13 @@
-import bankingAccountService from '../account/service';
-import depositService from '../deposit/service';
+export const createMockBankingAccountBody = ({
+    branchNumber = "0001",
+    branchNumberDigit = "0",
+    accountNumber = "543190",
+    accountNumberDigit = "0",
+    fullAccountNumber = "543190-0",
+    availableBalance = 535.36
+}) => {
+    return { branchNumber, branchNumberDigit, accountNumber, accountNumberDigit, fullAccountNumber, availableBalance };
+};
 
 export const createMockDepositBody = ({
     depositType = "DOC",
@@ -29,19 +37,3 @@ export const createMockWithdrawBody = ({
     value,
     financialInstitution
 });
-
-export const createAndSaveMockDeposit = async (bankingAccount, depositBody = null) => {
-    if (depositBody == null) {
-        depositBody = createMockDepositBody({});
-    }
-
-    return await depositService.save(depositBody, bankingAccount);
-};
-
-export const createAndSaveMockAccount = async () => {
-    return await bankingAccountService.create({
-        fullName: "Maria Andrade Pires",
-        document: "123.456.456-98",
-        email: "maria@email.com"
-    });
-};

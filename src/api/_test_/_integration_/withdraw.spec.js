@@ -1,8 +1,9 @@
-import { createAndSaveMockDeposit, createAndSaveMockAccount, createMockWithdrawBody } from './dataMock';
+import { createAndSaveMockDeposit, createAndSaveMockAccount } from './dataMock';
+import { createMockWithdrawBody } from '../_mocks_/bodyMock';
 import appMock from './appMock';
 import dbMock from './dbMock';
 import request from 'supertest';
-import { baseURL } from '../../constant/route';
+import { baseURL } from '../../../constant/route';
 
 const currentDate = Date.now();
 
